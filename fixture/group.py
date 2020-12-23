@@ -32,6 +32,13 @@ class GroupHelper:
 
         self.return_to_groups_page()
 
+    def delete_first(self):
+        driver = self.app.driver
+        self.open_groups_page()
+        driver.find_element_by_name("selected[]").click()
+        driver.find_element_by_name("delete").click()
+        self.return_to_groups_page()
+
     def return_to_groups_page(self):
         driver = self.app.driver
         driver.find_element_by_css_selector(".msgbox [href='group.php']").click()
