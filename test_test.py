@@ -1,4 +1,6 @@
 from selenium.webdriver import Firefox
+from group import Group
+
 driver = Firefox()
 driver.implicitly_wait(5)
 
@@ -22,26 +24,26 @@ def login(username, password):
 def open_groups_page():
     driver.find_element_by_css_selector("#nav a[href='group.php']").click()
 
-def create_group(name, header, footer):
+def create_group(group):
     driver.find_element_by_name("new").click()
 
     #name
     group_name = driver.find_element_by_name("group_name")
     group_name.click()
     group_name.clear()
-    group_name.send_keys(name)
+    group_name.send_keys(group.name)
 
     #header
     group_header = driver.find_element_by_name("group_header")
     group_header.click()
     group_header.clear()
-    group_header.send_keys(header)
+    group_header.send_keys(group.header)
 
     #footer
     group_footer = driver.find_element_by_name("group_footer")
     group_footer.click()
     group_footer.clear()
-    group_footer.send_keys(footer)
+    group_footer.send_keys(group.footer)
     driver.find_element_by_css_selector("#content [name=submit]").click()
 
 def return_to_groups_page():
@@ -54,7 +56,7 @@ def logout():
 open_home_page()
 login(username="admin", password="secret")
 open_groups_page()
-create_group("Friends", "Mine", "Dear ones")
+create_group(Group(name="Friends", header="Mine", footer="Dear ones"))
 return_to_groups_page()
 logout()
 
