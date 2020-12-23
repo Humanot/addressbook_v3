@@ -9,7 +9,7 @@ def app(request):
     return fixture
 
 def test_create_new_group(app):
-    app.login(username="admin", password="secret")
+    app.session.login(username="admin", password="secret")
     app.create_group(Group(name="Friends", header="Mine", footer="Dear ones"))
-    app.logout()
+    app.session.logout()
 
