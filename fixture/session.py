@@ -20,3 +20,7 @@ class SessionHelper:
     def logout(self):
         driver = self.app.driver
         driver.find_element_by_css_selector("#top [onclick='document.logout.submit();']").click()
+
+    def ensure_logout(self):
+        if len(self.app.driver.find_elements_by_css_selector("#top [onclick='document.logout.submit();']")) > 0:
+            self.logout()
