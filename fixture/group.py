@@ -1,3 +1,5 @@
+from model.group import Group
+
 class GroupHelper:
     def __init__(self, app):
         self.app = app
@@ -58,3 +60,16 @@ class GroupHelper:
     def return_to_groups_page(self):
         driver = self.app.driver
         driver.find_element_by_css_selector(".msgbox [href='group.php']").click()
+
+    def get_list(self):
+        groups = []
+        driver = self.app.driver
+        self.open_groups_page()
+        group_rows = driver.find_elements_by_css_selector("span.group")
+        for group in group_rows:
+            id = group.find_element_by_name("selected[]").get_attribute("value")
+            name = group.text
+
+            groups.append(Group(id=id, name=name))
+        return groups
+
