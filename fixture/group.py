@@ -72,4 +72,3 @@ class GroupHelper:
 
             groups.append(Group(id=id, name=name))
         return groups
-
