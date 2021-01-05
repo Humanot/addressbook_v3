@@ -17,9 +17,9 @@ class GroupHelper:
         driver.find_element_by_css_selector("#content [name=submit]").click()
         self.return_to_groups_page()
 
-    def fill_group_fields(self, group):
-        driver = self.app.driver
+        self.group_list_cache = None
 
+    def fill_group_fields(self, group):
         self.change_field_value("group_name", group.name)
         self.change_field_value("group_header", group.header)
         self.change_field_value("group_footer", group.header)
@@ -39,6 +39,8 @@ class GroupHelper:
         driver.find_element_by_name("delete").click()
         self.return_to_groups_page()
 
+        self.group_list_cache = None
+
     def select_first_group(self):
         driver = self.app.driver
         driver.find_element_by_name("selected[]").click()
@@ -52,6 +54,8 @@ class GroupHelper:
         driver.find_element_by_name("update").click()
         self.return_to_groups_page()
 
+        self.group_list_cache = None
+
     def count(self):
         driver = self.app.driver
         self.open_groups_page()
@@ -61,8 +65,9 @@ class GroupHelper:
         driver = self.app.driver
         driver.find_element_by_css_selector(".msgbox [href='group.php']").click()
 
+    group_list_cache = None
     def get_list(self):
-        groups = []
+        self.group_list_cache = []
         driver = self.app.driver
         self.open_groups_page()
         group_rows = driver.find_elements_by_css_selector("span.group")
@@ -70,5 +75,5 @@ class GroupHelper:
             id = group.find_element_by_name("selected[]").get_attribute("value")
             name = group.text
 
-            groups.append(Group(id=id, name=name))
-        return groups
+            self.group_list_cache.append(Group(id=id, name=name))
+        return list(self.group_list_cache)
