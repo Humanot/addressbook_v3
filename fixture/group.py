@@ -33,22 +33,26 @@ class GroupHelper:
             group_name.send_keys(value)
 
     def delete_first(self):
+        self.delete_by_index(0)
+        self.group_list_cache = None
+
+    def delete_by_index(self, index):
         driver = self.app.driver
         self.open_groups_page()
-        self.select_first_group()
+        self.select_by_index(index)
         driver.find_element_by_name("delete").click()
         self.return_to_groups_page()
 
         self.group_list_cache = None
 
-    def select_first_group(self):
+    def select_by_index(self, index):
         driver = self.app.driver
-        driver.find_element_by_name("selected[]").click()
+        driver.find_elements_by_name("selected[]")[index].click()
 
     def modify_first(self, new_group_data):
         driver = self.app.driver
         self.open_groups_page()
-        self.select_first_group()
+        self.select_by_index(0)
         driver.find_element_by_name("edit").click()
         self.fill_group_fields(new_group_data)
         driver.find_element_by_name("update").click()
