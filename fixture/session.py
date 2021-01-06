@@ -21,8 +21,11 @@ class SessionHelper:
         return len(self.app.driver.find_elements_by_css_selector("#top [onclick='document.logout.submit();']")) > 0
 
     def is_logged_in_as(self, username):
+        return self.get_logged_user() == username
+
+    def get_logged_user(self):
         driver = self.app.driver
-        return driver.find_element_by_css_selector("form[name=logout] b").text == "("+username+")"
+        return driver.find_element_by_css_selector("form[name=logout] b").text[1:-1]
 
     def ensure_login(self, username, password):
         if self.is_logged_in():
