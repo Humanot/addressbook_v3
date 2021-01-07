@@ -1,6 +1,10 @@
 from selenium.webdriver.support.ui import Select
+from model.contact import Contact
 
 class ContactHelper:
+
+    contacts_list_cache = None
+
     def __init__(self, app):
         self.app = app
 
@@ -10,6 +14,8 @@ class ContactHelper:
         self.fill_contact_info(contact_data)
         driver.find_element_by_css_selector("form[name=theform] input[name=submit]").click()
         self.return_to_home_page()
+
+        self.contacts_list_cache = None
 
     def return_to_home_page(self):
         driver = self.app.driver
@@ -80,7 +86,22 @@ class ContactHelper:
         self.change_field_value(contact_data.homephone2, "phone2")
         self.change_field_value(contact_data.notes, "notes")
 
+    def get_list(self):
+        if self.contacts_list_cache is None:
+            driver = self.app.driver
+            self.contacts_list_cache = []
+            self.app.open_home_page()
+            contacts_rows = driver.find_elements_by_css_selector("#maintable tr[name=entry]")
+            for row in contacts_rows:
+                #cells = row.find_elements_by_tag_name("td)"
+                id = row.find_element_by_css_selector("td input").get_attribute("value")
+                firstname = row.find_elements_by_tag_name("td")[2].text
+                lastname = row.find_elements_by_tag_name("td")[1].text
 
+                self.contacts_list_cache.append(Contact(id=id, firstname=firstname, lastname=lastname))
+        return list(self.contacts_list_cache)
 
-
+    def count(self):
+        driver = self.app.driver
+        return len(driver.find_elements_by_css_selector("#maintable tr[name=entry]"))
 
