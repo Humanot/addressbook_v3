@@ -105,3 +105,16 @@ class ContactHelper:
         driver = self.app.driver
         return len(driver.find_elements_by_css_selector("#maintable tr[name=entry]"))
 
+    def open_view_page_by_index(self, index):
+        driver = self.app.driver
+        self.app.open_home_page()
+        contact_row = driver.find_elements_by_css_selector("#maintable tr[name=entry]")[index]
+        cell = contact_row.find_elements_by_tag_name("td")[6]
+        cell.contact_row.find_elements_by_tag_name("a").click()
+
+    def open_edit_page_by_index(self, index):
+        driver = self.app.driver
+        self.app.open_home_page()
+        contact_row = driver.find_elements_by_css_selector("#maintable tr[name=entry]")[index]
+        cell = contact_row.find_elements_by_tag_name("td")[7]
+        cell.contact_row.find_elements_by_tag_name("a").click()
