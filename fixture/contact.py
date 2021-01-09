@@ -1,6 +1,6 @@
 from selenium.webdriver.support.ui import Select
 from model.contact import Contact
-
+from re import search
 
 class ContactHelper:
     contacts_list_cache = None
@@ -135,3 +135,14 @@ class ContactHelper:
 
         return Contact(id=id, firstname=firstname, lastname=lastname, homephone=homephone, mobile=mobile,
                        workphone=workphone, homephone2=homephone2)
+
+    def get_info_from_view_page(self, index):
+        driver = self.app.driver
+        self.open_view_page_by_index(index)
+        info = driver.find_element_by_id("content").text
+        homephone = search("H: (.*)", info).group(1)
+        mobile = search("M: (.*)", info).group(1)
+        workphone = search("W: (.*)", info).group(1)
+        homephone2 = search("P: (.*)", info).group(1)
+
+        return Contact(homephone=homephone, mobile=mobile, workphone=workphone, homephone2=homephone2)
