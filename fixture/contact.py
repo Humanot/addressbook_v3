@@ -2,6 +2,7 @@ from selenium.webdriver.support.ui import Select
 from model.contact import Contact
 from re import search
 
+
 class ContactHelper:
     contacts_list_cache = None
 
@@ -97,11 +98,15 @@ class ContactHelper:
                 id = cells[0].find_element_by_tag_name("input").get_attribute("value")
                 firstname = cells[2].text
                 lastname = cells[1].text
-                all_phones = cells[5].text.splitlines()
-
+                all_phones = cells[5].text
                 self.contacts_list_cache.append(
-                    Contact(id=id, firstname=firstname, lastname=lastname, homephone=all_phones[0],
-                            mobile=all_phones[1], workphone=all_phones[2], homephone2=all_phones[3]))
+                    Contact(id=id, firstname=firstname, lastname=lastname, all_phones_from_homepage=all_phones))
+#BY SPLITNESS
+                # all_phones = cells[5].text.splitlines()
+                # self.contacts_list_cache.append(
+                #     Contact(id=id, firstname=firstname, lastname=lastname, homephone=all_phones[0],
+                #             mobile=all_phones[1], workphone=all_phones[2], homephone2=all_phones[3]))
+
         return list(self.contacts_list_cache)
 
     def count(self):

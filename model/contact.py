@@ -5,7 +5,7 @@ class Contact:
                  company=None, address=None, homephone=None, mobile=None,
                  workphone=None, fax=None, email=None, email2=None, email3=None, homepage=None, bday=None, bmonth=None,
                  byear=None, aday=None, amonth=None, ayear=None, group=None, address2=None, homephone2=None,
-                 notes=None):
+                 notes=None, all_phones_from_homepage=None):
         self.id = id
         self.firstname = firstname
         self.middlename = middlename
@@ -33,6 +33,7 @@ class Contact:
         self.address2 = address2
         self.homephone2 = homephone2
         self.notes = notes
+        self.all_phones_from_homepage = all_phones_from_homepage
 
     def __repr__(self):
         return f'<{self.id}:{self.firstname}, {self.lastname}>'
