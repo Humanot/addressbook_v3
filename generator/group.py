@@ -4,6 +4,7 @@ from string import ascii_letters, digits, punctuation
 from os.path import abspath, dirname, join
 from json import dumps
 import getopt, sys
+from jsonpickle import encode, set_encoder_options
 
 n = 2
 f = "groups.json" #data/groups.json
@@ -35,7 +36,8 @@ test_data = [Group(name="Friends", header="Mine", footer="Dear ones"),
 test_data_file = join(dirname(abspath(__file__)), "../data/", f)
 
 with open(test_data_file, mode="w") as file:
-    file.write(dumps(test_data, default=lambda x: x.__dict__, indent=2))
+    set_encoder_options("json", indent=2)
+    file.write(encode(test_data))
 # test_data = [
 #     Group(name=name, header=header, footer=footer)
 #     for name in ["", random_string("name", 10)]

@@ -1,26 +1,30 @@
 [
   {
+    "py/object": "model.group.Group",
     "id": null,
     "name": "Friends",
     "header": "Mine",
     "footer": "Dear ones"
   },
   {
+    "py/object": "model.group.Group",
     "id": null,
     "name": "",
     "header": "",
     "footer": ""
   },
   {
+    "py/object": "model.group.Group",
     "id": null,
-    "name": "name dm~",
-    "header": "headerLN_6  ^o`Bf[4",
-    "footer": "footer#PBFE2q9"
+    "name": "nameq@LTM",
+    "header": "headerJ?k;\\#^d",
+    "footer": "footerV"
   },
   {
+    "py/object": "model.group.Group",
     "id": null,
-    "name": "nameo>rQ=N",
-    "header": "headerz 3NueBOZlt",
-    "footer": "footerr' 8@8Ihz- 1 ~"
+    "name": "namejp)bLJc ",
+    "header": "header<Gne Q 6l#} >z4TlR_",
+    "footer": "footernh%%kA{ "
   }
 ]
