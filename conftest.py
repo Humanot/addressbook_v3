@@ -2,6 +2,7 @@ from fixture.application import Application
 import pytest
 from json import load
 from os.path import abspath, dirname, join
+from importlib import import_module
 
 fixture = None
 target = None
@@ -34,3 +35,11 @@ def pytest_addoption(parser):
     parser.addoption("--baseUrl", action="store", default="http://localhost/addressbook/")
     parser.addoption("--target", action="store", default="target.json")
 
+def pytest_generate_tests(metafunc):
+    for fixture in metafunc.fixturenames:
+        if fixture.startswith("data_"):
+            testdata = load_from_module(fixture[5:])
+            metafunc.parametrize(fixture, testdata, ids=[repr(x) for x in testdata]) #str
+
+def load_from_module(module):
+    return import_module(f'data.{module}').debug_data
