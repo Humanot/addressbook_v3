@@ -8,6 +8,7 @@ class DbFixture:
         self.user = user
         self.password = password
         self.connection = connect(host=host, database=name, user=user, password=password)
+        self.connection.autocommit = True
 
     def get_list(self):
         #pass
