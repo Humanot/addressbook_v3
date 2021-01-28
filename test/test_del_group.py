@@ -11,7 +11,7 @@ def test_delete_first_group(app):
     old_groups[0:1] = [] #pop/del
     assert old_groups == new_groups
 
-def test_delete_some_group(app, db):
+def test_delete_some_group(app, db, check_ui):
     if len(db.get_list()) == 0:
         app.group.create(Group(name="Friends", header="Mine", footer="Dear ones"))
     old_groups = db.get_list()
@@ -24,4 +24,6 @@ def test_delete_some_group(app, db):
     old_groups.remove(group)
 
     assert old_groups == new_groups
+    if check_ui:
+        assert sorted(new_groups, key=Group.id_or_max) == sorted(app.group.get_list(), key=Group.id_or_max)
 
