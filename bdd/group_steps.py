@@ -1,5 +1,6 @@
 from pytest_bdd import given, when, then
 from model.group import Group
+from random import choice
 
 @given('a group list', target_fixture="group_list")
 def group_list(db):
@@ -19,3 +20,27 @@ def verify_group_added(db, group_list, new_group):
     new_groups = db.get_list()
     old_groups.append(new_group)
     assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
+
+@given('a non-empty group list', target_fixture="non_empty_group_list")
+def non_empty_group_list(db, app):
+    if len(db.get_list()) == 0:
+        app.group.create(Group(name="Hiya"))
+    return db.get_list()
+
+@given('a random group from the list', target_fixture="random_group")
+def random_group(non_empty_group_list):
+    return choice(non_empty_group_list)
+
+@when('I delete the group from the list')
+def add_new_group(app, random_group):
+    app.group.delete_by_id(random_group.id)
+
+@then('the new group list is equal to the old list without the deleted group')
+def verify_group_added(db, non_empty_group_list, random_group, app, check_ui):
+    old_groups = non_empty_group_list
+    new_groups = db.get_list()
+    old_groups.remove(random_group)
+    assert old_groups == new_groups
+
+    if check_ui:
+        assert sorted(new_groups, key=Group.id_or_max) == sorted(app.group.get_list(), key=Group.id_or_max)
