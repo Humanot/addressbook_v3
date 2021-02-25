@@ -4,13 +4,15 @@ from model.group import Group
 from random import choice
 import pytest
 
-@allure.step('Given a group list')
+
 @given('a group list', target_fixture="group_list")
+@allure.step('Given a group list')
 def group_list(db):
     return db.get_list()
 
-@allure.step('Given a group list a new group with name={name}, header={header} and footer={footer}')
+
 @given('a new group with <name>, <header> and <footer>', target_fixture="new_group")
+@allure.step('Given a group list a new group with name={name}, header={header} and footer={footer}')
 def new_group(name, header, footer):
     return Group(name=name, header=header, footer=footer)
 
@@ -27,15 +29,16 @@ def verify_group_added(db, group_list, new_group):
         old_groups.append(new_group)
         assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
 
-@allure.step('Given a non-empty group list')
+
 @given('a non-empty group list', target_fixture="non_empty_group_list")
+@allure.step('Given a non-empty group list')
 def non_empty_group_list(db, app):
     if len(db.get_list()) == 0:
         app.group.create(Group(name="Hiya"))
     return db.get_list()
 
-@allure.step('a random group from the list')
 @given('a random group from the list', target_fixture="random_group")
+@allure.step('Given a random group from the list')
 def random_group(non_empty_group_list):
     return choice(non_empty_group_list)
 
